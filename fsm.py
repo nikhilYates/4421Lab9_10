@@ -75,6 +75,7 @@ class FSM_STATES(Enum):
     # need to add a task state(s)
     #==============================================
     PERFORMING_TASK = 'Cutting the grass'
+    TURNING_TASK = 'Moving to next row'
     #===============================================
     RETURNING_FROM_TASK = 'Returning from Task',
     TASK_DONE = 'Task Done'
@@ -184,7 +185,9 @@ class FSM(Node):
     # IMPLEMENT do_state_performing_task
     def _do_state_performing_task(self):
         self.get_logger().info(f'{self.get_name()} grass cutting time {self._cur_x} {self._cur_y} {self._cur_theta}')
-        if self.drive_to_goal(
+    
+    
+    def _do_state_
     #=======================================================================================================================
 
     # HERE, WE ARE RETURNING TO THE ORIGIN (NOT THE POINT WHERE WE STARTED THE TASK, BUT WHERE WE STARTED THE PROGRAM)
