@@ -186,8 +186,9 @@ class FSM(Node):
     def _do_state_performing_task(self):
         self.get_logger().info(f'{self.get_name()} grass cutting time {self._cur_x} {self._cur_y} {self._cur_theta}')
     
+    # THIS IS THE STATE THAT MOVES THE ROBOT TO THE NEXT ROW
+    def _do_state_move_to_next_row(self):
     
-    def _do_state_
     #=======================================================================================================================
 
     # HERE, WE ARE RETURNING TO THE ORIGIN (NOT THE POINT WHERE WE STARTED THE TASK, BUT WHERE WE STARTED THE PROGRAM)
