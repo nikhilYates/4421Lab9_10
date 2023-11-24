@@ -41,6 +41,10 @@ num_rows = 4
 row_offset = 0.5 
 
 
+# HARD CODED PARAMETER SET:
+
+
+
 def euler_from_quaternion(quaternion):
     """
     Converts quaternion (w in last place) to euler roll, pitch, yaw
@@ -128,7 +132,37 @@ class FSM(Node):
             self._publisher.publish(twist)
         self.get_logger().info(f'{self.get_name()} at goal pose')
         return True
-
+        
+        #===========================================================================================
+        # this is the model component of cutting the grass
+        # here we describe how the robot moves along the row
+        def _cut_grass_row(self, row_width, goal_x, goal_y, goal_theta):
+            self.get_logger().info(f'{self.get_name()} cutting grass row')
+            twist = Twist()
+            
+            x_diff = goal_x - self._cur_x
+            y_diff = goal_y - self._cur_y
+            dist = x_diff * x_diff + y_diff * y_diff
+            self.get_logger().info(f'{self.get_name()} {x_diff} {y_diff}')
+            
+            
+        # here we describe the motion of the robot's change in direction    
+        def _turn_using_row_offset(self, row_offset, goal_x, goal_y, goal_theta):
+        
+            self.get_logger().info(f'{self.get_name()} turning to next row')
+            twist = Twist()
+       
+            x_diff = goal_x - self._cur_x
+            y_diff = goal_y - self._cur_y
+            dist = x_diff * x_diff + y_diff * y_diff
+            self.get_logger().info(f'{self.get_name()} {x_diff} {y_diff}')     
+       
+        #===========================================================================================
+        # END OF FSM CLASS
+        
+        
+        
+        
 
     def _do_state_at_start(self):
         self.get_logger().info(f'{self.get_name()} in start state')
@@ -144,6 +178,14 @@ class FSM(Node):
         self.get_logger().info(f'{self.get_name()} heading to task {self._cur_x} {self._cur_y} {self._cur_theta}')
         if self._drive_to_goal(2, 2, math.pi/2):
             self._cur_state = FSM_STATES.RETURNING_FROM_TASK
+            
+            
+    #=======================================================================================================================
+    # IMPLEMENT do_state_performing_task
+    def _do_state_performing_task(self):
+        self.get_logger().info(f'{self.get_name()} grass cutting time {self._cur_x} {self._cur_y} {self._cur_theta}')
+        if self.drive_to_goal(
+    #=======================================================================================================================
 
     # HERE, WE ARE RETURNING TO THE ORIGIN (NOT THE POINT WHERE WE STARTED THE TASK, BUT WHERE WE STARTED THE PROGRAM)
     def _do_state_returning_from_task(self):
